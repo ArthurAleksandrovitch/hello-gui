@@ -51,6 +51,7 @@ jobs:
     needs: test
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ${{ matrix.os }}
+
     permissions:
       contents: write
 
@@ -130,9 +131,7 @@ jobs:
         env:
           CGO_ENABLED: 1
         run: |
-          go build `
-            -ldflags="-s -w ${{ matrix.extra_ldflags }} -X main.version=${{ github.ref_name }}" `
-            -o ${{ matrix.artifact }} .
+          go build -ldflags="-s -w ${{ matrix.extra_ldflags }} -X main.version=${{ github.ref_name }}" -o ${{ matrix.artifact }} .
 
       - name: Upload release
         uses: softprops/action-gh-release@v2
